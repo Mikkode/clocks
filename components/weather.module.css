@@ -1,0 +1,56 @@
+.card {
+  backdrop-filter: blur(3px);
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  width: 310px;
+  padding: 15px;
+}
+
+.fadeIn {
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.visible {
+  opacity: 1;
+}
+
+/* .growIn {
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 1s ease-in-out;
+}
+
+.visible {
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+.visible:not(.growIn) {
+  transform: scale(1.2);
+  opacity: 1;
+  transition: transform 0.5s ease-out, opacity 0.5s ease-in-out;
+}
+
+.visible.done {
+  transform: scale(1);
+} */
+
+.animate {
+  z-index: 10;
+  opacity: 0;
+  animation: fadeIn ease-in-out 2s forwards;
+  /* z-index: 0; */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

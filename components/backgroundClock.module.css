@@ -1,0 +1,16 @@
+.image {
+  /* object-fit: cover; */
+  opacity: 0;
+  animation: fadeIn ease-in-out 0.5s forwards;
+  background-size: cover;
+  background-position: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
