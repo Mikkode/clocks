@@ -30,10 +30,10 @@ export default function Forecast({ city }: ForecastProps) {
 
     const fetchData = async () => {
       setLoading(true);
-      const { latitude, longitude } = await getCoordinates(city);
+      const coor: CoordinateData = await getCoordinates(city);
       const forecast: WeatherForecast = await getForecastWeather(
-        latitude,
-        longitude
+        coor.latitude,
+        coor.longitude
       );
 
       forecast.list.forEach((item) => {

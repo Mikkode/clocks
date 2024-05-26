@@ -1,6 +1,6 @@
 "use server";
 
-export async function getWeather(city: string) {
+export async function getWeather(city: string): Promise<WeatherData> {
   const res = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${process.env.KEY_OPEN_WEATHER_MAP}`,
     { next: { revalidate: 5 } }
@@ -14,7 +14,10 @@ export async function getWeather(city: string) {
   return res.json();
 }
 
-export async function getForecastWeather(latitude: number, longitude: number) {
+export async function getForecastWeather(
+  latitude: number,
+  longitude: number
+): Promise<WeatherForecast> {
   const res = await fetch(
     `http://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&cnt=17&units=metric&APPID=${process.env.KEY_OPEN_WEATHER_MAP}`,
     { next: { revalidate: 5 } }
@@ -28,7 +31,7 @@ export async function getForecastWeather(latitude: number, longitude: number) {
   return res.json();
 }
 
-export async function getCoordinates(city: string) {
+export async function getCoordinates(city: string): Promise<CoordinateData> {
   const res = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${process.env.KEY_OPEN_WEATHER_MAP}`,
     { next: { revalidate: 5 } }
@@ -47,7 +50,10 @@ export async function getCoordinates(city: string) {
   };
 }
 
-export async function getTimeZone(latitude: number, longitude: number) {
+export async function getTimeZone(
+  latitude: number,
+  longitude: number
+): Promise<string> {
   const res = await fetch(
     `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&format=json&apiKey=${process.env.KEY_GEOAPIFY}`,
     { next: { revalidate: 5 } }
