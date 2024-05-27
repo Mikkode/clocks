@@ -3,6 +3,7 @@ import { Anek_Telugu } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/libs/utils";
 import { GeistSans } from "geist/font/sans";
+import { Toaster } from "@/components/ui/toaster";
 // import { Suspense } from "react";
 // import Loading from "./loading";
 
@@ -32,6 +33,7 @@ export default function RootLayout({
         )}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );

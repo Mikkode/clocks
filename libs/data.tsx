@@ -2,6 +2,12 @@
 
 import { cookies } from "next/headers";
 
+export const addCity = async (formData: FormData) => {
+  "use server";
+  const city = formData.get("city");
+  await setCitiesCookie(city);
+};
+
 export async function getCitiesCookie() {
   let cities: string[] = ["Paris", "Kyoto"];
   const cookieStore = cookies();
