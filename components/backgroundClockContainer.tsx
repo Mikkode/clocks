@@ -8,38 +8,56 @@ import bgNight from "@/public/night.jpg";
 import { useEffect, useState } from "react";
 import classes from "./backgroundClock.module.css";
 import { v4 as uuidv4 } from "uuid";
+import { getInitialZonedDate } from "@/libs/utils";
+import { getTimeZoneByCity } from "@/libs/data";
 
 type BackgroundColockProps = {
-  hour: number;
+  city: string;
 };
 
 export default function BackgroundClockContainer({
-  hour,
+  city,
 }: BackgroundColockProps) {
   const [backgroundImage, setBackgroundImage] = useState(bgDay);
+  const [loading, setLoading] = useState(true);
+
+  console.log("BackgroundClockContainer");
+
+  function getBackground(timeZone: string) {
+    const hours = getInitialZonedDate(timeZone).getHours();
+    if (hours > 6 && hours < 8) {
+      return bgSunrise;
+    } else if (hours >= 8 && hours <= 18) {
+      return bgDay;
+    } else if (hours > 18 && hours <= 19) {
+      return bgSunset;
+    }
+    return bgNight;
+  }
 
   useEffect(() => {
-    if (hour > 6 && hour < 8) {
-      setBackgroundImage(bgSunrise);
-    } else if (hour >= 8 && hour <= 18) {
-      setBackgroundImage(bgDay);
-    } else if (hour > 18 && hour <= 19) {
-      setBackgroundImage(bgSunset);
-    } else {
-      setBackgroundImage(bgNight);
-    }
-  }, [hour]);
+    const fetchData = async () => {
+      setLoading(true);
+      const timeZone: string = await getTimeZoneByCity(city);
+      setBackgroundImage(getBackground(timeZone));
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <Image
-      key={uuidv4()}
-      className={classes.image}
-      src={backgroundImage}
-      alt="bg"
-      quality={100}
-      fill
-      sizes="(max-width: 800px) 100vw, 800px"
-      priority
-    />
+    !loading && (
+      <Image
+        key={uuidv4()}
+        className={classes.image}
+        src={backgroundImage}
+        alt="bg"
+        quality={100}
+        fill
+        sizes="(max-width: 800px) 100vw, 800px"
+        priority
+      />
+    )
   );
 }

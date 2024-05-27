@@ -1,9 +1,16 @@
+//"use client";
+
 import Hero from "@/components/hero";
-export default function Home() {
-  const cities = [
+// import { addCity, getCities } from "@/libs/data";
+export default async function Home() {
+  let cities = [
     "Paris",
-    "Kyoto",
+    // "Kyoto",
+    // "Manila",
+    // "Sao Jose do Rio Preto",
+    // "Quilpeé",
     // "New York",
+    // "Los angeles",
     // "London",
     // "Tokyo",
     // "Sydney",
@@ -14,7 +21,7 @@ export default function Home() {
 
   return (
     <main>
-      <Hero cities={cities} />
+      <Hero defaultCities={cities} />
     </main>
   );
 }

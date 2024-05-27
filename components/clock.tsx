@@ -2,17 +2,35 @@
 
 import { useEffect, useState } from "react";
 import classes from "./clock.module.css";
-import { getInitialZonedDate, formatTime } from "@/libs/utils";
+import {
+  getInitialZonedDate,
+  formatTime,
+  capitalizeFirstLetter,
+} from "@/libs/utils";
+import { getTimeZoneByCity } from "@/libs/data";
+import { LoadingWeather } from "@/app/loading";
 
 type ClockProps = {
-  timeZone: string;
-  displayName: string;
+  city: string;
 };
 
-export function Clock({ timeZone, displayName }: ClockProps) {
-  const [time, setTime] = useState<Date>(getInitialZonedDate(timeZone));
+export function Clock({ city }: ClockProps) {
+  const [time, setTime] = useState<Date>(new Date());
+  const [timeZone, setTimeZone] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const timeZone = await getTimeZoneByCity(city);
+      const time: Date = getInitialZonedDate(timeZone);
+      setTimeZone(timeZone);
+      setTime(time);
+      setLoading(false);
+    };
+
+    fetchData();
+
     const interval = setInterval(() => {
       setTime((prevTime) => new Date(prevTime.getTime() + 1000));
     }, 1000);
@@ -20,14 +38,18 @@ export function Clock({ timeZone, displayName }: ClockProps) {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [city]);
 
   return (
-    <div className={`pt-10 pr-10 pl-10 ${classes.falling} w-80`}>
-      <p className="flex justify-center text-2xl pb-6">{displayName}</p>
-      <p className="flex justify-center text-6xl" suppressHydrationWarning>
-        {formatTime(time, timeZone, true)}
-      </p>
-    </div>
+    !loading && (
+      <div className={`pt-10 pr-10 pl-10 ${classes.falling} w-80`}>
+        <p className="flex justify-center text-2xl pb-6">
+          {capitalizeFirstLetter(city)}
+        </p>
+        <p className="flex justify-center text-6xl" suppressHydrationWarning>
+          {formatTime(time, timeZone, true)}
+        </p>
+      </div>
+    )
   );
 }
