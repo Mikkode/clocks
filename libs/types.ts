@@ -103,3 +103,8 @@ type TimeData = {
     }
   ];
 };
+
+type CoordinateData = {
+  latitude: number;
+  longitude: number;
+};

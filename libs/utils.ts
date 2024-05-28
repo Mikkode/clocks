@@ -37,10 +37,12 @@ export function getFormattedTime(
 }
 
 export function extractCityFromTimeZone(timeZone: string) {
-  // Découper la chaîne à chaque '/'
   const parts = timeZone.split("/");
-  // Le nom de la ville est la dernière partie
   const city = parts[parts.length - 1];
-  // Remplacer les underscores par des espaces
   return city.replace(/_/g, " ");
+}
+
+export function capitalizeFirstLetter(word: string): string {
+  if (!word) return word;
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }

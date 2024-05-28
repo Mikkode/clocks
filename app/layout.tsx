@@ -3,8 +3,8 @@ import { Anek_Telugu } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/libs/utils";
 import { GeistSans } from "geist/font/sans";
-// import { Suspense } from "react";
-// import Loading from "./loading";
+import { Toaster } from "@/components/ui/toaster";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const AnekTelugu = Anek_Telugu({
   subsets: ["latin"],
@@ -31,7 +31,12 @@ export default function RootLayout({
           "font-sans h-full bg-background text-foreground dark"
         )}
       >
-        {children}
+        <main>
+          <ChakraProvider>
+            {children}
+            <Toaster />
+          </ChakraProvider>
+        </main>
       </body>
     </html>
   );
