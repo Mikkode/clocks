@@ -1,20 +1,18 @@
+import CityManager from "@/components/cityManager";
 import Hero from "@/components/hero";
-export default function Home() {
-  const cities = [
-    "Paris",
-    "Kyoto",
-    // "New York",
-    // "London",
-    // "Tokyo",
-    // "Sydney",
-    // "Rome",
-    // "Berlin",
-    // "Moscow",
-  ];
+import DrawerMenu from "@/components/drawerMenu";
+import ModalMenu from "@/components/modalMenu";
 
+export default function Home() {
   return (
-    <main>
-      <Hero cities={cities} />
-    </main>
+    <>
+      {/* <DrawerMenu>
+        <CityManager />
+      </DrawerMenu> */}
+      <ModalMenu>
+        <CityManager />
+      </ModalMenu>
+      <Hero />
+    </>
   );
 }
