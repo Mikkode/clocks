@@ -1,3 +1,5 @@
+import { extendTheme } from "@chakra-ui/react";
+
 import Thunderstorm from "@/assets/weather/thunderstorms.svg";
 import Drizzle1 from "@/assets/weather/drizzle.svg";
 import Drizzle2 from "@/assets/weather/drizzle.svg";
@@ -106,3 +108,36 @@ export const WeatherCodeToImage: WeatherCodeToImage = {
   803: Clouds3,
   804: Clouds4,
 };
+
+export const defaultCities = [
+  "Paris",
+  // "Kyoto",
+  // "Manila",
+  // "Sao Jose do Rio Preto",
+  // "Quilpeé",
+  // "New York",
+  // "Los angeles",
+  // "London",
+  // "Tokyo",
+  // "Sydney",
+  // "Rome",
+  // "Berlin",
+  // "Moscow",
+];
+
+export const theme = extendTheme({
+  colors: {
+    // Couleurs sombres pour le thème sombre
+    brand: {
+      50: "#e6f6ff",
+      // Ajoutez d'autres nuances sombres selon vos besoins
+    },
+    // Couleurs de texte sombres
+    text: {
+      primary: "#FFFFFF", // Couleur de texte principale
+      secondary: "#A0AEC0", // Couleur de texte secondaire
+    },
+    // Autres couleurs sombres si nécessaire
+  },
+  // Autres paramètres de thème sombre si nécessaire
+});

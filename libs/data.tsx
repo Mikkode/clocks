@@ -1,8 +1,7 @@
 "use server";
 
-import { error } from "console";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { defaultCities } from "./constants";
 
 export async function addCity(
   prevState: {
@@ -30,7 +29,7 @@ export async function addCity(
 }
 
 export async function getCitiesCookie() {
-  let cities: string[] = ["Paris", "Kyoto"];
+  let cities: string[] = defaultCities;
   const cookieStore = cookies();
   const citiesCookie = cookieStore.get("cities")?.value;
 
@@ -51,12 +50,8 @@ export async function setCitiesCookie(city: string) {
 export async function deleteCityCookie(city: string) {
   const cookieStore = cookies();
   let citiesCookie = await getCitiesCookie();
-  console.log("les coookies", citiesCookie);
-  let index: number = citiesCookie.indexOf(city);
-  if (index !== -1) {
-    citiesCookie.splice(index, 1);
-  }
-  cookieStore.set("cities", JSON.stringify(citiesCookie));
+  const updatedCities = citiesCookie.filter((c) => c !== city);
+  cookieStore.set("cities", JSON.stringify(updatedCities));
 }
 
 export async function getTimeZoneByCity(city: string) {
