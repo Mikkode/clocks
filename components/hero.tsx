@@ -20,7 +20,7 @@ export default async function Hero({ defaultCities }: ClocksProps) {
         {cities &&
           cities.map((city, index) => (
             <div key={index} className="flex-grow sm:min-w-80">
-              <ErrorBoundary fallback={<Error />}>
+              <ErrorBoundary fallback={<div>Error</div>}>
                 <ClockContainer city={city}></ClockContainer>
               </ErrorBoundary>
             </div>
@@ -28,8 +28,4 @@ export default async function Hero({ defaultCities }: ClocksProps) {
       </div>
     </>
   );
-}
-
-function Error() {
-  return <div>Une erreur s'est produite. Veuillez réessayer plus tard.</div>;
 }

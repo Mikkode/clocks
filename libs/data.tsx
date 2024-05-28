@@ -1,12 +1,36 @@
 "use server";
 
+import { error } from "console";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
-export const addCity = async (formData: FormData) => {
-  "use server";
+export async function addCity(
+  prevState: {
+    success: boolean;
+    message: string;
+  },
+  formData: FormData
+) {
   const city = formData.get("city");
-  await setCitiesCookie(city);
-};
+
+  if (city === null) {
+    revalidatePath("/");
+    return { message: `Error add city: ${city}`, success: false };
+  }
+
+  const cityName = city as string;
+
+  // check
+  try {
+    await getTimeZoneByCity(cityName);
+    await setCitiesCookie(cityName);
+    revalidatePath("/");
+    return { message: `Added ${cityName}`, success: true };
+  } catch (error) {
+    revalidatePath("/");
+    return { message: `Error add city: ${cityName}`, success: false };
+  }
+}
 
 export async function getCitiesCookie() {
   let cities: string[] = ["Paris", "Kyoto"];

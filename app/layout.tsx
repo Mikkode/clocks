@@ -32,8 +32,10 @@ export default function RootLayout({
           "font-sans h-full bg-background text-foreground dark"
         )}
       >
-        {children}
-        <Toaster />
+        <main>
+          {children}
+          <Toaster />
+        </main>
       </body>
     </html>
   );

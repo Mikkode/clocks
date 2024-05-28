@@ -19,9 +19,5 @@ export default async function Home() {
     // "Moscow",
   ];
 
-  return (
-    <main>
-      <Hero defaultCities={cities} />
-    </main>
-  );
+  return <Hero defaultCities={cities} />;
 }
