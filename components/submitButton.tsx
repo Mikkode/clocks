@@ -6,7 +6,7 @@ export function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <button type="submit" disabled={pending}>
+    <button type="submit" disabled={pending} className="text-black">
       Add
       {/* {pending ? "Sending Message..." : "Send Message"} */}
     </button>

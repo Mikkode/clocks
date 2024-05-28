@@ -38,18 +38,16 @@ export function Clock({ city }: ClockProps) {
     return () => {
       clearInterval(interval);
     };
-  }, [city]);
+  }, []);
 
   return (
-    !loading && (
-      <div className={`pt-10 pr-10 pl-10 ${classes.falling} w-80`}>
-        <p className="flex justify-center text-2xl pb-6">
-          {capitalizeFirstLetter(city)}
-        </p>
-        <p className="flex justify-center text-6xl" suppressHydrationWarning>
-          {formatTime(time, timeZone, true)}
-        </p>
-      </div>
-    )
+    <div className={`pt-10 ${classes.falling} w-80`}>
+      <p className="flex justify-center text-2xl pb-6">
+        {capitalizeFirstLetter(city)}
+      </p>
+      <p className="flex justify-center text-6xl" suppressHydrationWarning>
+        {formatTime(time, timeZone, true)}
+      </p>
+    </div>
   );
 }

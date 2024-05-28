@@ -4,8 +4,7 @@ import "./globals.css";
 import { cn } from "@/libs/utils";
 import { GeistSans } from "geist/font/sans";
 import { Toaster } from "@/components/ui/toaster";
-// import { Suspense } from "react";
-// import Loading from "./loading";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const AnekTelugu = Anek_Telugu({
   subsets: ["latin"],
@@ -33,8 +32,10 @@ export default function RootLayout({
         )}
       >
         <main>
-          {children}
-          <Toaster />
+          <ChakraProvider>
+            {children}
+            <Toaster />
+          </ChakraProvider>
         </main>
       </body>
     </html>

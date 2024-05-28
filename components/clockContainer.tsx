@@ -1,4 +1,3 @@
-import { ErrorBoundary } from "react-error-boundary";
 import { Clock } from "./clock";
 import BackgroundClockContainer from "./backgroundClockContainer";
 import Weather from "./weather";
@@ -23,8 +22,4 @@ export default function ClockContainer({ city }: ClockProps) {
       </div>
     </div>
   );
-}
-
-function Error() {
-  return <div>Erreur...</div>;
 }

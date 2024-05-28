@@ -30,7 +30,7 @@ export default function CitiesList({ citiesList }: CitiesListProps) {
     <div>
       {cities.map((city, index) => (
         <div key={index}>
-          <li>
+          <li className="text-black">
             {city}
             {<Button onClick={() => deleteCity(city)}>del</Button>}
           </li>

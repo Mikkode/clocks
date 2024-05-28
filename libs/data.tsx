@@ -14,7 +14,6 @@ export async function addCity(
   const city = formData.get("city");
 
   if (city === null) {
-    revalidatePath("/");
     return { message: `Error add city: ${city}`, success: false };
   }
 
@@ -24,10 +23,8 @@ export async function addCity(
   try {
     await getTimeZoneByCity(cityName);
     await setCitiesCookie(cityName);
-    revalidatePath("/");
     return { message: `Added ${cityName}`, success: true };
   } catch (error) {
-    revalidatePath("/");
     return { message: `Error add city: ${cityName}`, success: false };
   }
 }
