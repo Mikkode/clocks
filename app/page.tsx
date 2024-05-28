@@ -1,8 +1,6 @@
-//"use client";
-
 import Hero from "@/components/hero";
-// import { addCity, getCities } from "@/libs/data";
-export default async function Home() {
+
+export default function Home() {
   let cities = [
     "Paris",
     // "Kyoto",
