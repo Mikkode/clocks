@@ -3,40 +3,50 @@
 import { cookies } from "next/headers";
 import { defaultCities } from "./constants";
 
-export async function addCity(
-  prevState: {
-    success: boolean;
-    message: string;
-  },
-  formData: FormData
-) {
-  const city = formData.get("city");
+export async function addCity(formData: FormData) {
+  const cityName = formData.get("city");
 
-  if (city === null) {
-    return { message: `Error add city: ${city}`, success: false };
+  if (typeof cityName === "string") {
+    try {
+      await setCitiesCookie(cityName);
+      return { error: null };
+    } catch (e) {
+      if (e instanceof Error) {
+        return { error: e.message };
+      } else {
+        return { error: "An unknown error occurred" };
+      }
+    }
+  } else {
+    return { error: "City name is not a valid string" };
   }
+}
 
-  const cityName = city as string;
+export async function deleteCity(formData: FormData) {
+  const cityName = formData.get("city");
 
-  // check
-  try {
-    await getTimeZoneByCity(cityName);
-    await setCitiesCookie(cityName);
-    return { message: `Added ${cityName}`, success: true };
-  } catch (error) {
-    return { message: `Error add city: ${cityName}`, success: false };
+  if (typeof cityName === "string") {
+    try {
+      await deleteCityCookie(cityName);
+      return { error: null };
+    } catch (e) {
+      if (e instanceof Error) {
+        return { error: e.message };
+      } else {
+        return { error: "An unknown error occurred" };
+      }
+    }
+  } else {
+    return { error: "City name is not a valid string" };
   }
 }
 
 export async function getCitiesCookie() {
-  let cities: string[] = defaultCities;
   const cookieStore = cookies();
-  const citiesCookie = cookieStore.get("cities")?.value;
-
-  if (citiesCookie !== undefined) {
-    cities = JSON.parse(cookieStore.get("cities")?.value ?? "[]");
+  const cities: string[] = JSON.parse(cookieStore.get("cities")?.value ?? "[]");
+  if (cities.length == 0) {
+    return defaultCities;
   }
-
   return cities;
 }
 

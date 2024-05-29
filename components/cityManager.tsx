@@ -1,70 +1,66 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import CitiesList from "./citiesList";
+import { useOptimistic, useRef } from "react";
+import CitiesList from "@/components/citiesList";
 import { addCity, getCitiesCookie } from "@/libs/data";
-import { SubmitButton } from "./submitButton";
-import { useFormState } from "react-dom";
-import { toast } from "./ui/use-toast";
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  ModalFooter,
-} from "@chakra-ui/react";
+import { SubmitButtonAdd } from "@/components/submitButton";
+import { toast } from "@/components/ui/use-toast";
+import { FormControl, FormLabel, Input } from "@chakra-ui/react";
 
-const initialState = {
-  success: true,
-  message: "",
+type CityManagerProps = {
+  cities: string[];
 };
 
-export default function CityManager() {
-  const [cities, setCities] = useState<string[]>([]);
-  const [state, formAction] = useFormState(addCity, initialState);
-
-  useEffect(() => {
-    if (state.message.length > 0) {
-      if (state.success) {
-        toast({
-          title: "Success",
-          description: state.message,
-        });
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: state.message,
-        });
-      }
+export default function CityManager({ cities }: CityManagerProps) {
+  const ref = useRef<HTMLFormElement>(null);
+  const [optimisticCities, addOptimisticCity] = useOptimistic(
+    cities,
+    (state: string[], newCity: string) => {
+      return [...state, newCity];
     }
+  );
 
-    const fetchData = async () => {
-      const citiesCookie = await getCitiesCookie();
-      setCities(citiesCookie);
-    };
-
-    fetchData();
-  }, [state]);
+  console.log("CityManager");
 
   return (
     <>
       <div className="">
-        <form action={formAction}>
+        <form
+          ref={ref}
+          action={async (formData) => {
+            ref.current?.reset();
+
+            const city = formData.get("city") as string;
+            addOptimisticCity(city);
+            const { error } = await addCity(formData);
+            if (error) {
+              toast({
+                variant: "destructive",
+                title: `Error during add city ${city}`,
+                description: error,
+              });
+            } else {
+              toast({
+                title: "Success",
+                description: `City ${city} added`,
+              });
+            }
+          }}
+        >
           <FormControl isRequired>
-            <FormLabel>City or country name</FormLabel>
+            <FormLabel>City</FormLabel>
             <Input
-              placeholder="Paris, Madrid, Japan, Filipina..."
+              placeholder="Paris, Manila, Kyoto..."
               type="text"
               name="city"
             />
           </FormControl>
           <div className="flex justify-end mt-2">
-            <SubmitButton />
+            <SubmitButtonAdd name="Add Clock" />
           </div>
         </form>
       </div>
-      <CitiesList citiesList={cities} />
+      <CitiesList citiesList={optimisticCities} />
     </>
   );
 }
