@@ -19,22 +19,21 @@ type MenuProps = {
 
 export default function ModalMenu({ children }: MenuProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  console.log("ModalMenu");
   return (
     <>
-      {/* <Button onClick={onOpen}>Open Modals</Button> */}
       <IconButton
         icon={<SettingsIcon />}
         aria-label="Open Settings"
         onClick={onOpen}
-        position="fixed" // Fixe la position pour qu'il flotte
-        top="4" // Distance depuis le haut
-        right="4" // Distance depuis la droite
-        backgroundColor="gray.800" // Couleur de fond
-        color="white" // Couleur de l'icône
-        _hover={{ bg: "gray.700" }} // Couleur de fond au survol
-        className="shadow-lg" // Ombre pour donner un effet flottant
-        zIndex={40}
+        position="fixed"
+        top="4"
+        left="4"
+        backgroundColor="gray.800"
+        color="white"
+        _hover={{ bg: "gray.700" }}
+        className="shadow-lg"
+        zIndex={9999}
       />
       <Modal
         blockScrollOnMount={false}

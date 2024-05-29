@@ -1,16 +1,15 @@
 import CityManager from "@/components/cityManager";
 import Hero from "@/components/hero";
-import DrawerMenu from "@/components/drawerMenu";
 import ModalMenu from "@/components/modalMenu";
+import { getCitiesCookie } from "@/libs/data";
 
-export default function Home() {
+export default async function Home() {
+  const citiesCookie: string[] = await getCitiesCookie();
+
   return (
     <>
-      {/* <DrawerMenu>
-        <CityManager />
-      </DrawerMenu> */}
       <ModalMenu>
-        <CityManager />
+        <CityManager cities={citiesCookie} />
       </ModalMenu>
       <Hero />
     </>
