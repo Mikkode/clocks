@@ -8,25 +8,21 @@ import {
   capitalizeFirstLetter,
 } from "@/libs/utils";
 import { getTimeZoneByCity } from "@/libs/data";
-import { LoadingWeather } from "@/app/loading";
 
 type ClockProps = {
   city: string;
 };
 
-export function Clock({ city }: ClockProps) {
+export default function Clock({ city }: ClockProps) {
   const [time, setTime] = useState<Date>(new Date());
   const [timeZone, setTimeZone] = useState<string>("");
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       const timeZone = await getTimeZoneByCity(city);
       const time: Date = getInitialZonedDate(timeZone);
       setTimeZone(timeZone);
       setTime(time);
-      setLoading(false);
     };
 
     fetchData();
