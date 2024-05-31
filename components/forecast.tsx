@@ -5,7 +5,7 @@ import sunriseImage from "@/assets/weather/sunrise.svg";
 import sunsetImage from "@/assets/weather/sunset.svg";
 import { toZonedTime } from "date-fns-tz";
 import { formatTime, toLocalTime } from "@/libs/utils";
-import { getCoordinates, getForecastWeather } from "@/libs/data";
+import { getCoordinates, getForecastWeather } from "@/libs/actions";
 
 type ForecastProps = {
   city: string;
