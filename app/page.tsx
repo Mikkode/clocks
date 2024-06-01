@@ -1,3 +1,5 @@
+export const dynamic = "force-static";
+
 import CityManager from "@/components/cityManager";
 import Hero from "@/components/hero";
 import ModalMenu from "@/components/modalMenu";
@@ -14,9 +16,9 @@ export default async function Home() {
   return (
     <>
       <ModalMenu>
-        <CityManager cities={citiesCookie} />
+        <CityManager cities={defaultCities} />
       </ModalMenu>
-      <Hero cities={citiesCookie} />
+      <Hero cities={defaultCities} />
     </>
   );
 }

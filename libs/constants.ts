@@ -111,8 +111,8 @@ export const WeatherCodeToImage: WeatherCodeToImage = {
 
 export const defaultCities = [
   "Paris",
-  // "Kyoto",
-  // "Manila",
+  "Kyoto",
+  "Manila",
   // "Sao Jose do Rio Preto",
   // "Quilpeé",
   // "New York",

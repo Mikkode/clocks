@@ -42,8 +42,10 @@ export async function setCitiesCookie(cities: string[]) {
 export async function deleteCityCookie(city: string) {
   const cookieStore = cookies();
   const citiesCookie = await getCitiesCookie();
+  console.log("deleteCityCookie 1", citiesCookie);
   const updatedCities = citiesCookie.filter((c) => c !== city);
   cookieStore.set("cities", JSON.stringify(updatedCities));
+  console.log("deleteCityCookie 2", await getCitiesCookie());
 }
 
 export async function getTimeZoneByCity(city: string) {
