@@ -15,11 +15,11 @@
 @keyframes fallFromTop {
   from {
     transform: translateY(-100%);
-    opacity: 0; /* Opacité initiale */
+    opacity: 0;
   }
   to {
     transform: translateY(0);
-    opacity: 1; /* Opacité finale */
+    opacity: 1;
   }
 }
 

@@ -9,7 +9,6 @@ export default async function Home() {
   if (citiesCookie.length == 0) {
     citiesCookie = defaultCities;
   }
-  console.log("Home");
 
   return (
     <>

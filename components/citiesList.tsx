@@ -1,22 +1,22 @@
-import { deleteCity, deleteCityCookie } from "@/libs/actions";
+import { deleteCity } from "@/libs/actions";
 import { useOptimistic } from "react";
-import { toast } from "./ui/use-toast";
 import { SubmitButtonDelete } from "./submitButton";
 import { capitalizeFirstLetter } from "@/libs/utils";
+import { useToast } from "@chakra-ui/react";
 
 type CitiesListProps = {
   citiesList: string[];
 };
 
 export default function CitiesList({ citiesList }: CitiesListProps) {
-  console.log("CitiesList");
-
   const [optimisticCities, supOptimisticCity] = useOptimistic(
     citiesList,
     (state: string[], deletedCity: string) => {
       return state.filter((city) => city !== deletedCity);
     }
   );
+
+  const toast = useToast();
 
   return (
     <div className="mt-4">
@@ -30,14 +30,16 @@ export default function CitiesList({ citiesList }: CitiesListProps) {
                 const { error } = await deleteCity(city);
                 if (error) {
                   toast({
-                    variant: "destructive",
-                    title: `Error during deleting city ${city}`,
+                    status: "error",
+                    title: `Error during deleting city ${capitalizeFirstLetter(
+                      city
+                    )}`,
                     description: error,
                   });
                 } else {
                   toast({
-                    title: "Success",
-                    description: `City ${city} deleted`,
+                    status: "success",
+                    title: `${capitalizeFirstLetter(city)} deleted`,
                   });
                 }
               }}

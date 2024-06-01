@@ -19,7 +19,6 @@ type MenuProps = {
 
 export default function ModalMenu({ children }: MenuProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log("ModalMenu");
   return (
     <>
       <IconButton
