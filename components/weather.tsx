@@ -1,4 +1,4 @@
-import { getWeather } from "@/libs/data";
+import { getWeather } from "@/libs/actions";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { WeatherCodeToImage } from "@/libs/constants";
