@@ -19,7 +19,6 @@ type Forecasts = {
 
 export default async function Forecast({ city }: ForecastProps) {
   const forecasts: Forecasts[] = [];
-  console.log("Forecast");
 
   const coor: CoordinateData = await getCoordinates(city);
   const forecast: WeatherForecast = await getForecastWeather(

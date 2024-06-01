@@ -10,7 +10,6 @@ type ClockProps = {
 };
 
 export default async function ClockContainer({ city }: ClockProps) {
-  console.log("ClockContainer");
   const timeZone = await getTimeZoneByCity(city);
   const time: Date = getInitialZonedDate(timeZone);
   return (

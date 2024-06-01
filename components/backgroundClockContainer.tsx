@@ -17,8 +17,6 @@ export default async function BackgroundClockContainer({
   const timeZone: string = await getTimeZoneByCity(city);
   const backgroundImage = getBackground(timeZone);
 
-  console.log("BackgroundClockContainer");
-
   function getBackground(timeZone: string) {
     const hours = getInitialZonedDate(timeZone).getHours();
     if (hours > 6 && hours < 8) {

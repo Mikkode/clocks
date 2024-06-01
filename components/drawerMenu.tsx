@@ -30,12 +30,12 @@ export default function DrawerMenu({ children }: MenuProps) {
         icon={<HamburgerIcon />}
         aria-label="Open Menu"
         onClick={onOpen}
-        bg="blue.900" // Couleur de fond du bouton
-        color="white" // Couleur du texte
-        _hover={{ bg: "teal.600" }} // Change la couleur de fond au survol
-        opacity="75" // Opacité du bouton (0 = transparent, 100 = opaque)
-        _groupHover={{ opacity: "100" }} // Opacité du bouton au survol
-        _active={{ bg: "teal.700" }} // Couleur de fond lorsque le bouton est actif
+        bg="blue.900"
+        color="white"
+        _hover={{ bg: "teal.600" }}
+        opacity="75"
+        _groupHover={{ opacity: "100" }}
+        _active={{ bg: "teal.700" }}
       />
 
       <Drawer isOpen={isOpen} placement="left" onClose={onClose}>

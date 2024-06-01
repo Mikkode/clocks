@@ -1,5 +1,4 @@
 .image {
-  /* object-fit: cover; */
   position: fixed;
   opacity: 0;
   animation: fadeIn ease-in-out 0.5s forwards;

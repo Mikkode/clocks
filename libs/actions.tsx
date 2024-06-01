@@ -1,9 +1,10 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { defaultCities } from "./constants";
 
-export async function updateCities(cities: string[]) {
+export async function updateCities(
+  cities: string[]
+): Promise<{ error: string | null }> {
   try {
     await setCitiesCookie(cities);
     return { error: null };
@@ -15,7 +16,9 @@ export async function updateCities(cities: string[]) {
   }
 }
 
-export async function deleteCity(city: string) {
+export async function deleteCity(
+  city: string
+): Promise<{ error: string | null }> {
   try {
     await deleteCityCookie(city);
     return { error: null };
@@ -28,25 +31,25 @@ export async function deleteCity(city: string) {
   }
 }
 
-export async function getCitiesCookie() {
+export async function getCitiesCookie(): Promise<string[]> {
   const cookieStore = cookies();
   const cities: string[] = JSON.parse(cookieStore.get("cities")?.value ?? "[]");
   return cities;
 }
 
-export async function setCitiesCookie(cities: string[]) {
+export async function setCitiesCookie(cities: string[]): Promise<void> {
   const cookieStore = cookies();
   cookieStore.set("cities", JSON.stringify(cities));
 }
 
-export async function deleteCityCookie(city: string) {
+export async function deleteCityCookie(city: string): Promise<void> {
   const cookieStore = cookies();
   const citiesCookie = await getCitiesCookie();
   const updatedCities = citiesCookie.filter((c) => c !== city);
   cookieStore.set("cities", JSON.stringify(updatedCities));
 }
 
-export async function getTimeZoneByCity(city: string) {
+export async function getTimeZoneByCity(city: string): Promise<string> {
   const { latitude, longitude } = await getCoordinates(city);
   const timeZone = await getTimeZone(latitude, longitude);
 

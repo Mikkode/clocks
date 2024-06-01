@@ -4,12 +4,13 @@ import { useOptimistic, useRef, useState } from "react";
 import CitiesList from "@/components/citiesList";
 import { updateCities } from "@/libs/actions";
 import { SubmitButtonAdd } from "@/components/submitButton";
-import { toast } from "@/components/ui/use-toast";
+
 import {
   FormControl,
   FormErrorMessage,
   FormLabel,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { capitalizeFirstLetter } from "@/libs/utils";
 
@@ -26,6 +27,7 @@ export default function CityManager({ cities }: CityManagerProps) {
     }
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const toast = useToast();
 
   return (
     <>
@@ -49,14 +51,14 @@ export default function CityManager({ cities }: CityManagerProps) {
           const { error } = await updateCities(updatedCities);
           if (error) {
             toast({
-              variant: "destructive",
-              title: `Error during add city ${city}`,
+              status: "error",
+              title: `Error during add city ${city} : ${error}`,
               description: error,
             });
           } else {
             toast({
-              title: "Success",
-              description: `City ${city} added`,
+              status: "success",
+              title: `${capitalizeFirstLetter(city)} added`,
             });
           }
         }}

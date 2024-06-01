@@ -14,7 +14,6 @@ type WeatherProps = {
 };
 
 export default async function Weather({ city }: WeatherProps) {
-  console.log("Weather");
   const weather: WeatherData = await getWeather(city);
 
   const temperature = weather.main.temp.toFixed(1);
