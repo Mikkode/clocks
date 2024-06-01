@@ -3,63 +3,45 @@
 import { cookies } from "next/headers";
 import { defaultCities } from "./constants";
 
-export async function addCity(formData: FormData) {
-  const cityName = formData.get("city");
-
-  if (typeof cityName === "string") {
-    try {
-      await setCitiesCookie(cityName);
-      return { error: null };
-    } catch (e) {
-      if (e instanceof Error) {
-        return { error: e.message };
-      } else {
-        return { error: "An unknown error occurred" };
-      }
+export async function updateCities(cities: string[]) {
+  try {
+    await setCitiesCookie(cities);
+    return { error: null };
+  } catch (e) {
+    if (e instanceof Error) {
+      return { error: e.message };
     }
-  } else {
-    return { error: "City name is not a valid string" };
+    return { error: "An unknown error occurred" };
   }
 }
 
-export async function deleteCity(formData: FormData) {
-  const cityName = formData.get("city");
-
-  if (typeof cityName === "string") {
-    try {
-      await deleteCityCookie(cityName);
-      return { error: null };
-    } catch (e) {
-      if (e instanceof Error) {
-        return { error: e.message };
-      } else {
-        return { error: "An unknown error occurred" };
-      }
+export async function deleteCity(city: string) {
+  try {
+    await deleteCityCookie(city);
+    return { error: null };
+  } catch (e) {
+    if (e instanceof Error) {
+      return { error: e.message };
+    } else {
+      return { error: "An unknown error occurred" };
     }
-  } else {
-    return { error: "City name is not a valid string" };
   }
 }
 
 export async function getCitiesCookie() {
   const cookieStore = cookies();
   const cities: string[] = JSON.parse(cookieStore.get("cities")?.value ?? "[]");
-  if (cities.length == 0) {
-    return defaultCities;
-  }
   return cities;
 }
 
-export async function setCitiesCookie(city: string) {
+export async function setCitiesCookie(cities: string[]) {
   const cookieStore = cookies();
-  let citiesCookie = await getCitiesCookie();
-  citiesCookie.push(city);
-  cookieStore.set("cities", JSON.stringify(citiesCookie));
+  cookieStore.set("cities", JSON.stringify(cities));
 }
 
 export async function deleteCityCookie(city: string) {
   const cookieStore = cookies();
-  let citiesCookie = await getCitiesCookie();
+  const citiesCookie = await getCitiesCookie();
   const updatedCities = citiesCookie.filter((c) => c !== city);
   cookieStore.set("cities", JSON.stringify(updatedCities));
 }
@@ -138,8 +120,4 @@ export async function getTimeZone(
   const data = await res.json();
 
   return data.results[0].timezone.name;
-}
-
-export async function test1() {
-  return await new Promise((resolve) => setTimeout(resolve, 3000));
 }

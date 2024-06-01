@@ -1,11 +1,17 @@
 "use client";
 
-import { useOptimistic, useRef } from "react";
+import { useOptimistic, useRef, useState } from "react";
 import CitiesList from "@/components/citiesList";
-import { addCity, getCitiesCookie } from "@/libs/data";
+import { updateCities } from "@/libs/actions";
 import { SubmitButtonAdd } from "@/components/submitButton";
 import { toast } from "@/components/ui/use-toast";
-import { FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
+import { capitalizeFirstLetter } from "@/libs/utils";
 
 type CityManagerProps = {
   cities: string[];
@@ -14,52 +20,60 @@ type CityManagerProps = {
 export default function CityManager({ cities }: CityManagerProps) {
   const ref = useRef<HTMLFormElement>(null);
   const [optimisticCities, addOptimisticCity] = useOptimistic(
-    cities,
+    cities.map((city) => city.toLowerCase()),
     (state: string[], newCity: string) => {
       return [...state, newCity];
     }
   );
-
-  console.log("CityManager");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   return (
     <>
-      <div className="">
-        <form
-          ref={ref}
-          action={async (formData) => {
-            ref.current?.reset();
+      <form
+        ref={ref}
+        action={async (formData) => {
+          ref.current?.reset();
+          setErrorMessage(null);
 
-            const city = formData.get("city") as string;
-            addOptimisticCity(city);
-            const { error } = await addCity(formData);
-            if (error) {
-              toast({
-                variant: "destructive",
-                title: `Error during add city ${city}`,
-                description: error,
-              });
-            } else {
-              toast({
-                title: "Success",
-                description: `City ${city} added`,
-              });
-            }
-          }}
-        >
-          <FormControl isRequired>
-            <FormLabel>City</FormLabel>
-            <Input
-              placeholder="Paris, Manila, Kyoto..."
-              type="text"
-              name="city"
-            />
-          </FormControl>
-          <div className="flex justify-end mt-2">
-            <SubmitButtonAdd name="Add Clock" />
-          </div>
-        </form>
-      </div>
+          const city = formData.get("city") as string;
+          const normalizedCity = city.toLowerCase();
+
+          if (optimisticCities.includes(normalizedCity)) {
+            setErrorMessage(
+              `${capitalizeFirstLetter(normalizedCity)} is already added.`
+            );
+            return;
+          }
+          const updatedCities = [...optimisticCities, normalizedCity];
+          addOptimisticCity(city);
+          const { error } = await updateCities(updatedCities);
+          if (error) {
+            toast({
+              variant: "destructive",
+              title: `Error during add city ${city}`,
+              description: error,
+            });
+          } else {
+            toast({
+              title: "Success",
+              description: `City ${city} added`,
+            });
+          }
+        }}
+      >
+        <FormControl isRequired isInvalid={!!errorMessage}>
+          <FormLabel>City</FormLabel>
+          <Input
+            placeholder="Paris, Manila, Kyoto..."
+            type="text"
+            name="city"
+          />
+          {errorMessage && <FormErrorMessage>{errorMessage}</FormErrorMessage>}
+        </FormControl>
+        <div className="flex justify-end mt-2">
+          <SubmitButtonAdd name="Add Clock" />
+        </div>
+      </form>
       <CitiesList citiesList={optimisticCities} />
     </>
   );
