@@ -2,7 +2,11 @@
 
 import { useEffect, useState } from "react";
 import classes from "./clock.module.css";
-import { formatTime, capitalizeFirstLetter } from "@/libs/utils";
+import {
+  formatTime,
+  capitalizeFirstLetter,
+  getInitialZonedDate,
+} from "@/libs/utils";
 
 type ClockProps = {
   city: string;
@@ -15,7 +19,7 @@ export default function Clock({ city, date, timeZone }: ClockProps) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime((prevTime) => new Date(prevTime.getTime() + 1000));
+      setTime(getInitialZonedDate(timeZone));
     }, 1000);
 
     return () => {
